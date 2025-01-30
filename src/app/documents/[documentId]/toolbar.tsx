@@ -16,6 +16,8 @@ import {
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
+import FontFamilyButton from "./fontFamilyButton";
+import HeadingsButton from "./headingsButton";
 
 interface ToolbarButtonProps {
   icon: LucideIcon;
@@ -112,6 +114,9 @@ const Toolbar = () => {
       {sections[0].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
+      <Separator orientation="vertical" className="h-full bg-amber-200" />
+      <FontFamilyButton />
+      <HeadingsButton />
       <Separator orientation="vertical" className="h-full bg-amber-200" />
       {sections[1].map((item) => (
         <ToolbarButton key={item.label} {...item} />
