@@ -12,6 +12,8 @@ import TableRow from "@tiptap/extension-table-row";
 import Image from "@tiptap/extension-image";
 import Underline from "@tiptap/extension-underline";
 import ResizeImage from "tiptap-extension-resize-image";
+import FontFamily from "@tiptap/extension-font-family";
+import TextStyle from "@tiptap/extension-text-style";
 import { useEditorStore } from "@/store/use-editor";
 
 const Editor = () => {
@@ -31,7 +33,7 @@ const Editor = () => {
       attributes: {
         style: "padding-left: 56px; padding-right:56px;",
         class:
-          "focus:outline-none bg-stone-950 text-amber-100 w-[800px] h-full bg-white py-10",
+          "focus:outline-none bg-stone-950 text-amber-100 w-[800px] h-full py-10",
       },
     },
     extensions: [
@@ -47,6 +49,8 @@ const Editor = () => {
       Image,
       ResizeImage,
       Underline,
+      FontFamily,
+      TextStyle,
     ],
     content: `
   Hello there
