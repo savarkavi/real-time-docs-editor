@@ -3,6 +3,7 @@
 import "./styles.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { Color } from "@tiptap/extension-color";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import Table from "@tiptap/extension-table";
@@ -14,6 +15,8 @@ import Underline from "@tiptap/extension-underline";
 import ResizeImage from "tiptap-extension-resize-image";
 import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
+import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
 import { useEditorStore } from "@/store/use-editor";
 
 const Editor = () => {
@@ -51,6 +54,14 @@ const Editor = () => {
       Underline,
       FontFamily,
       TextStyle,
+      Highlight.configure({
+        multicolor: true,
+      }),
+      Color,
+      Link.configure({
+        autolink: true,
+        defaultProtocol: "https",
+      }),
     ],
     content: `
   Hello there

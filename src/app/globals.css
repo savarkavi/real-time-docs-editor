@@ -71,3 +71,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.sketch-picker {
+  background-color: #fde68a !important;
+  border: none !important;
+  box-shadow: none !important;
+}

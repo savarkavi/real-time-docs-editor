@@ -14,22 +14,22 @@ const HeadingsButton = () => {
     {
       label: "Smaller",
       value: 5,
-      fontSize: "12px",
+      fontSize: "16px",
     },
     {
       label: "Small",
       value: 4,
-      fontSize: "16px",
+      fontSize: "20px",
     },
     {
       label: "Medium",
       value: 3,
-      fontSize: "20px",
+      fontSize: "24px",
     },
     {
       label: "Large",
       value: 2,
-      fontSize: "24px",
+      fontSize: "28px",
     },
     {
       label: "Extra Large",
@@ -43,7 +43,7 @@ const HeadingsButton = () => {
   const getCurrentHeading = () => {
     for (let i = 1; i <= 5; i++) {
       if (editor?.isActive("heading", { level: i })) {
-        return headings[i - 1].label;
+        return headings[headings.length - i].label;
       }
     }
     return "Smaller";

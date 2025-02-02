@@ -176,20 +176,33 @@
   }
 
   h1 {
-    font-size: 1.4rem;
+    font-size: 2rem;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1.75rem;
   }
 
   h3 {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
   }
 
-  h4,
+  h4 {
+    font-size: 1.25rem;
+  }
+
   h5,
   h6 {
     font-size: 1rem;
+  }
+
+  /* Link styles */
+  a {
+    @apply text-blue-600;
+    cursor: pointer;
+
+    &:hover {
+      @apply underline;
+    }
   }
 }

@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import FontFamilyButton from "./fontFamilyButton";
 import HeadingsButton from "./headingsButton";
+import TextColorButton from "./textColorButton";
+import TextHighlightButton from "./textHighlightButton";
 
 interface ToolbarButtonProps {
   icon: LucideIcon;
@@ -121,6 +123,8 @@ const Toolbar = () => {
       {sections[1].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
+      <TextColorButton />
+      <TextHighlightButton />
       <Separator orientation="vertical" className="h-full bg-amber-200" />
       {sections[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />
