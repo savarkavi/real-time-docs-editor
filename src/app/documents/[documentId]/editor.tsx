@@ -17,6 +17,10 @@ import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
+
+import { FontSize } from "@/extensions/font-size";
+
 import { useEditorStore } from "@/store/use-editor";
 
 const Editor = () => {
@@ -59,9 +63,14 @@ const Editor = () => {
       }),
       Color,
       Link.configure({
+        openOnClick: false,
         autolink: true,
         defaultProtocol: "https",
       }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+      FontSize,
     ],
     content: `
   Hello there

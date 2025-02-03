@@ -20,6 +20,11 @@ import FontFamilyButton from "./fontFamilyButton";
 import HeadingsButton from "./headingsButton";
 import TextColorButton from "./textColorButton";
 import TextHighlightButton from "./textHighlightButton";
+import LinkButton from "./linkButton";
+import ImageButton from "./imageButton";
+import TextAlignmentButton from "./textAlignmentButton";
+import ListButton from "./listButton";
+import FontSizeButton from "./fontSizeButton";
 
 interface ToolbarButtonProps {
   icon: LucideIcon;
@@ -118,7 +123,10 @@ const Toolbar = () => {
       ))}
       <Separator orientation="vertical" className="h-full bg-amber-200" />
       <FontFamilyButton />
+      <Separator orientation="vertical" className="h-full bg-amber-200" />
       <HeadingsButton />
+      <Separator orientation="vertical" className="h-full bg-amber-200" />
+      <FontSizeButton />
       <Separator orientation="vertical" className="h-full bg-amber-200" />
       {sections[1].map((item) => (
         <ToolbarButton key={item.label} {...item} />
@@ -126,6 +134,10 @@ const Toolbar = () => {
       <TextColorButton />
       <TextHighlightButton />
       <Separator orientation="vertical" className="h-full bg-amber-200" />
+      <LinkButton />
+      <ImageButton />
+      <TextAlignmentButton />
+      <ListButton />
       {sections[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
