@@ -22,6 +22,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import { FontSize } from "@/extensions/font-size";
 
 import { useEditorStore } from "@/store/use-editor";
+import Ruler from "./ruler";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -40,7 +41,7 @@ const Editor = () => {
       attributes: {
         style: "padding-left: 56px; padding-right:56px;",
         class:
-          "focus:outline-none bg-stone-950 text-amber-100 w-[800px] h-full py-10",
+          "focus:outline-none bg-stone-950 text-amber-100 w-[1000px] py-10",
       },
     },
     extensions: [
@@ -78,7 +79,8 @@ const Editor = () => {
   });
 
   return (
-    <div className="flex min-h-screen justify-center p-4">
+    <div className="flex min-h-screen flex-col items-center gap-8 p-4">
+      <Ruler />
       <EditorContent editor={editor} />
     </div>
   );

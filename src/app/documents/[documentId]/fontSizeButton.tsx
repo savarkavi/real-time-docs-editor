@@ -75,7 +75,10 @@ const FontSizeButton = () => {
         }}
       >
         <SelectTrigger className="w-16 gap-1 border-none hover:bg-amber-200">
-          <SelectValue placeholder="12" />
+          <span>
+            {editor?.getAttributes("textStyle").fontSize?.replace("px", "") ||
+              "16"}
+          </span>
         </SelectTrigger>
         <SelectContent className="text-black">
           {sizes.map(({ size, value }) => (

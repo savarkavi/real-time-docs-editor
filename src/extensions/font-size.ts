@@ -37,7 +37,7 @@ export const FontSize = Extension.create<FontSizeOptions>({
         "56px",
         "60px",
       ],
-      defaultSize: null,
+      defaultSize: "16px",
     };
   },
 
