@@ -1,4 +1,5 @@
 import Editor from "./editor";
+import Navbar from "./navbar";
 import Toolbar from "./toolbar";
 
 interface DocumentIdPageParams {
@@ -10,6 +11,7 @@ const DocumentIdPage = async ({ params }: DocumentIdPageParams) => {
 
   return (
     <div className="min-h-screen bg-stone-950 text-black">
+      <Navbar />
       <Toolbar />
       <Editor />
     </div>
