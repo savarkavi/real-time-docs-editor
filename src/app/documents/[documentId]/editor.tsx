@@ -39,9 +39,9 @@ const Editor = () => {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        style: "padding-left: 56px; padding-right:56px;",
+        style: "padding-left: 56px; padding-right: 56px;",
         class:
-          "focus:outline-none bg-stone-950 text-amber-100 w-[1000px] py-10",
+          "focus:outline-none bg-stone-950 text-amber-100 w-full max-w-[1000px] mx-auto py-10",
       },
     },
     extensions: [
@@ -79,7 +79,7 @@ const Editor = () => {
   });
 
   return (
-    <div className="flex min-h-screen flex-col items-center gap-8 p-4">
+    <div className="flex min-h-screen flex-col gap-8 p-4">
       <Ruler />
       <EditorContent editor={editor} />
     </div>

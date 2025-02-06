@@ -77,3 +77,7 @@ body {
   border: none !important;
   box-shadow: none !important;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

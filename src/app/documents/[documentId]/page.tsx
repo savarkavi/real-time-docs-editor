@@ -10,7 +10,7 @@ const DocumentIdPage = async ({ params }: DocumentIdPageParams) => {
   const { documentId } = await params;
 
   return (
-    <div className="min-h-screen bg-stone-950 text-black">
+    <div className="min-h-screen w-full overflow-x-hidden bg-stone-950 text-black">
       <Navbar />
       <Toolbar />
       <Editor />

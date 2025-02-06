@@ -62,7 +62,7 @@ const Ruler = () => {
       ref={rulerRef}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
-      className="mt-2 w-full select-none border-b border-stone-800"
+      className="hide-scrollbar mt-2 w-full select-none overflow-x-scroll border-b border-stone-800"
     >
       <div
         id="ruler"
