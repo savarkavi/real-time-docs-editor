@@ -72,6 +72,7 @@ const Ruler = () => {
           position={leftMargin}
           isLeft={true}
           onMouseDown={handleLeftMarkerMouseDown}
+          isDragging={isDraggingLeft}
         />
         {markers.map((marker) => (
           <div key={marker}>
@@ -93,6 +94,7 @@ const Ruler = () => {
           position={rightMargin}
           isLeft={false}
           onMouseDown={handleRightMarkerMouseDown}
+          isDragging={isDraggingRight}
         />
       </div>
     </div>
