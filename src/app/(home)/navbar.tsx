@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SearchInput from "./searchInput";
+import { UserButton, ClerkLoading } from "@clerk/nextjs";
 
 const Navbar = () => {
   return (
@@ -14,7 +15,9 @@ const Navbar = () => {
         <h1 className="font-serif text-2xl text-amber-100">Yuma</h1>
       </div>
       <SearchInput />
-      <div />
+      <div>
+        <UserButton />
+      </div>
     </div>
   );
 };
