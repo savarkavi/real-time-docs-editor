@@ -1,0 +1,98 @@
+"use client";
+
+import { PaginationStatus } from "convex/react";
+import { Doc } from "../../../convex/_generated/dataModel";
+import { format } from "date-fns";
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import { SiGoogledocs } from "react-icons/si";
+import {
+  Building2Icon,
+  CircleUserIcon,
+  Loader2Icon,
+  MoreVerticalIcon,
+} from "lucide-react";
+
+interface DocumentsTableProps {
+  documents: Doc<"documents">[];
+  loadMore: (numItems: number) => void;
+  status: PaginationStatus;
+  isLoading: boolean;
+}
+
+const DocumentsTable = ({
+  documents,
+  loadMore,
+  status,
+  isLoading,
+}: DocumentsTableProps) => {
+  console.log(isLoading);
+
+  return (
+    <div className="mx-auto mt-8 flex max-w-[1000px] flex-col gap-8 text-amber-100">
+      <h2 className="text-2xl">Recent Documents</h2>
+      {isLoading ? (
+        <div className="mt-16 flex items-center justify-center">
+          <Loader2Icon className="animate-spin" />
+        </div>
+      ) : documents.length === 0 ? (
+        <div className="mx-auto mt-16 flex flex-col items-center">
+          <p>No text documents yet</p>
+          <p>Select a blank document above to get started</p>
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow className="border-none hover:bg-transparent">
+              <TableHead>Name</TableHead>
+              <TableHead>Shared</TableHead>
+              <TableHead>Created at</TableHead>
+              <TableHead>&nbsp;</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {documents.map((document) => (
+              <TableRow key={document._id}>
+                <TableCell>
+                  <div className="flex items-center gap-4">
+                    <SiGoogledocs className="size-4" />
+                    <p>{document.title}</p>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-4">
+                    {document.organizationId ? (
+                      <Building2Icon className="size-4" />
+                    ) : (
+                      <CircleUserIcon className="size-4" />
+                    )}
+                    {document.organizationId ? "Organization" : "Personal"}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  {format(new Date(document._creationTime), "MMM dd, yyyy")}
+                </TableCell>
+                <TableCell className="flex justify-end">
+                  <button>
+                    <MoreVerticalIcon className="size-4" />
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+    </div>
+  );
+};
+
+export default DocumentsTable;
