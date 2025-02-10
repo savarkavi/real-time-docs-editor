@@ -7,7 +7,6 @@ import { format } from "date-fns";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -18,9 +17,12 @@ import { SiGoogledocs } from "react-icons/si";
 import {
   Building2Icon,
   CircleUserIcon,
+  Loader2,
   Loader2Icon,
-  MoreVerticalIcon,
 } from "lucide-react";
+import DocumentMenu from "./documentMenu";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 interface DocumentsTableProps {
   documents: Doc<"documents">[];
@@ -35,12 +37,12 @@ const DocumentsTable = ({
   status,
   isLoading,
 }: DocumentsTableProps) => {
-  console.log(isLoading);
+  const router = useRouter();
 
   return (
     <div className="mx-auto mt-8 flex max-w-[1000px] flex-col gap-8 text-amber-100">
       <h2 className="text-2xl">Recent Documents</h2>
-      {isLoading ? (
+      {isLoading && status !== "LoadingMore" ? (
         <div className="mt-16 flex items-center justify-center">
           <Loader2Icon className="animate-spin" />
         </div>
@@ -61,7 +63,13 @@ const DocumentsTable = ({
           </TableHeader>
           <TableBody>
             {documents.map((document) => (
-              <TableRow key={document._id}>
+              <TableRow
+                key={document._id}
+                onClick={() => {
+                  router.push(`/documents/${document._id}`);
+                }}
+                className="cursor-pointer"
+              >
                 <TableCell>
                   <div className="flex items-center gap-4">
                     <SiGoogledocs className="size-4" />
@@ -82,14 +90,24 @@ const DocumentsTable = ({
                   {format(new Date(document._creationTime), "MMM dd, yyyy")}
                 </TableCell>
                 <TableCell className="flex justify-end">
-                  <button>
-                    <MoreVerticalIcon className="size-4" />
-                  </button>
+                  <DocumentMenu documentId={document._id} />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+      )}
+      {status === "CanLoadMore" && (
+        <div className="my-4 flex w-full items-center justify-center">
+          <Button variant="ghost" onClick={() => loadMore(5)}>
+            Load more
+          </Button>
+        </div>
+      )}
+      {status === "LoadingMore" && (
+        <div className="my-4 flex w-full items-center justify-center">
+          <Loader2Icon className="size-4 animate-spin" />
+        </div>
       )}
     </div>
   );
