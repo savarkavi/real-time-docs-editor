@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SearchInput from "./searchInput";
-import { UserButton, ClerkLoading } from "@clerk/nextjs";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   return (
@@ -15,8 +15,24 @@ const Navbar = () => {
         <h1 className="font-serif text-2xl text-amber-100">Yuma</h1>
       </div>
       <SearchInput />
-      <div>
-        <UserButton />
+      <div className="flex items-center gap-2">
+        <OrganizationSwitcher
+          appearance={{
+            elements: {
+              organizationSwitcherTriggerIcon: "text-muted-foreground",
+              organizationPreviewMainIdentifier: "text-muted-foreground",
+              organizationPreviewAvatarBox: "w-8 h-8",
+              userPreviewAvatarBox: "w-8 h-8",
+            },
+          }}
+        />
+        <UserButton
+          appearance={{
+            elements: {
+              userButtonAvatarBox: "w-10 h-10",
+            },
+          }}
+        />
       </div>
     </div>
   );
