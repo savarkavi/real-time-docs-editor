@@ -16,6 +16,7 @@ const SearchInput = () => {
 
   const onInputClear = () => {
     setValue("");
+    setSearch("");
     inputRef.current?.blur();
   };
 
