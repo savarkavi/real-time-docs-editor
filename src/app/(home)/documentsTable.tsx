@@ -14,12 +14,7 @@ import {
 } from "@/components/ui/table";
 
 import { SiGoogledocs } from "react-icons/si";
-import {
-  Building2Icon,
-  CircleUserIcon,
-  Loader2,
-  Loader2Icon,
-} from "lucide-react";
+import { Building2Icon, CircleUserIcon, Loader2Icon } from "lucide-react";
 import DocumentMenu from "./documentMenu";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -90,7 +85,7 @@ const DocumentsTable = ({
                   {format(new Date(document._creationTime), "MMM dd, yyyy")}
                 </TableCell>
                 <TableCell className="flex justify-end">
-                  <DocumentMenu documentId={document._id} />
+                  <DocumentMenu document={document} />
                 </TableCell>
               </TableRow>
             ))}

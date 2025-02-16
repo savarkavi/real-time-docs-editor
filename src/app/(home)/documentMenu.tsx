@@ -36,29 +36,34 @@ import {
   MoreVerticalIcon,
   Trash2Icon,
 } from "lucide-react";
-import { Id } from "../../../convex/_generated/dataModel";
+import { Doc } from "../../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@clerk/nextjs";
 
 interface DocumentMenuProps {
-  documentId: Id<"documents">;
+  document: Doc<"documents">;
 }
 
-const DocumentMenu = ({ documentId }: DocumentMenuProps) => {
+const DocumentMenu = ({ document }: DocumentMenuProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [title, setTitle] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const { userId } = useAuth();
+
+  const isOwner = userId === document.ownerId;
+
   const deleteDocument = useMutation(api.documents.deleteDocument);
   const updateDocument = useMutation(api.documents.updateDocument);
 
   const handleOpenInNewTab = () => {
-    window.open(`/documents/${documentId}`, "_blank");
+    window.open(`/documents/${document._id}`, "_blank");
   };
 
   const handleDocumentDelete = async (
@@ -67,7 +72,7 @@ const DocumentMenu = ({ documentId }: DocumentMenuProps) => {
     try {
       e.stopPropagation();
       setIsDeleting(true);
-      await deleteDocument({ id: documentId });
+      await deleteDocument({ id: document._id });
       toast.success("Document successfully deleted");
     } catch (error) {
       console.log(error);
@@ -87,7 +92,7 @@ const DocumentMenu = ({ documentId }: DocumentMenuProps) => {
 
     try {
       setIsUpdating(true);
-      await updateDocument({ id: documentId, title: title.trim() });
+      await updateDocument({ id: document._id, title: title.trim() });
       toast.success("Document successfully updated");
     } catch (error) {
       console.log(error);
@@ -111,81 +116,89 @@ const DocumentMenu = ({ documentId }: DocumentMenuProps) => {
           className="text-black"
           onClick={(e) => e.stopPropagation()}
         >
-          <DialogTrigger
-            asChild
-            onSelect={(e) => e.preventDefault()}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
-              <button className="flex w-full items-center gap-2">
-                <FilePenIcon className="size-4" />
-                Rename
-              </button>
-            </DropdownMenuItem>
-          </DialogTrigger>
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
+          {isOwner && (
+            <DialogTrigger
+              asChild
+              onSelect={(e) => e.preventDefault()}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
                 <button className="flex w-full items-center gap-2">
-                  <Trash2Icon className="size-4" />
-                  Delete
+                  <FilePenIcon className="size-4" />
+                  Rename
                 </button>
-              </AlertDialogTrigger>
-              <AlertDialogContent onClick={(e) => e.stopPropagation()}>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your document.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    disabled={isDeleting}
-                    onClick={handleDocumentDelete}
-                    className="flex w-20 items-center justify-center bg-red-500 text-white hover:bg-red-400"
-                  >
-                    {isDeleting ? (
-                      <Loader2Icon className="size-4 animate-spin" />
-                    ) : (
-                      <span>Delete</span>
-                    )}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </DropdownMenuItem>
+              </DropdownMenuItem>
+            </DialogTrigger>
+          )}
+          {isOwner && (
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button className="flex w-full items-center gap-2">
+                    <Trash2Icon className="size-4" />
+                    Delete
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your document.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      disabled={isDeleting}
+                      onClick={handleDocumentDelete}
+                      className="flex w-20 items-center justify-center bg-red-500 text-white hover:bg-red-400"
+                    >
+                      {isDeleting ? (
+                        <Loader2Icon className="size-4 animate-spin" />
+                      ) : (
+                        <span>Delete</span>
+                      )}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={handleOpenInNewTab}>
             <ExternalLinkIcon />
             Open in new tab
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DialogContent onClick={(e) => e.stopPropagation()}>
-        <form className="flex flex-col gap-4" onSubmit={handleDocumentUpdate}>
-          <DialogHeader>
-            <DialogTitle>Rename document</DialogTitle>
-            <DialogDescription>
-              Enter a new name for this document
-            </DialogDescription>
-          </DialogHeader>
-          <Input
-            className="text-white"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <DialogFooter>
-            <Button disabled={isUpdating} type="submit" className="w-20">
-              {isUpdating ? (
-                <Loader2Icon className="size-4 animate-spin" />
-              ) : (
-                <span>Save</span>
-              )}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
+      {isOwner && (
+        <DialogContent onClick={(e) => e.stopPropagation()}>
+          <form className="flex flex-col gap-4" onSubmit={handleDocumentUpdate}>
+            <DialogHeader>
+              <DialogTitle>Rename document</DialogTitle>
+              <DialogDescription>
+                Enter a new name for this document
+              </DialogDescription>
+            </DialogHeader>
+            <Input
+              className="text-white"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <DialogFooter>
+              <Button disabled={isUpdating} type="submit" className="w-20">
+                {isUpdating ? (
+                  <Loader2Icon className="size-4 animate-spin" />
+                ) : (
+                  <span>Save</span>
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      )}
     </Dialog>
   );
 };
