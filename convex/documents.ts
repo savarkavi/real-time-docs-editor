@@ -31,7 +31,9 @@ export const get = query({
 
     if (!user) throw new ConvexError("Unauthorized");
 
-    const organizationId = user.organization_id as string | undefined;
+    const organizationId = (user.organization_id ?? undefined) as
+      | string
+      | undefined;
 
     if (search && organizationId) {
       return await ctx.db
@@ -74,12 +76,21 @@ export const deleteDocument = mutation({
 
     if (!user) throw new ConvexError("Unauthorized");
 
+    const organizationId = (user.organization_id ?? undefined) as
+      | string
+      | undefined;
+
     const document = await ctx.db.get(args.id);
 
     if (!document) throw new ConvexError("Document not found");
 
-    if (document.ownerId !== user.subject) {
-      throw new ConvexError("Only the owner can delete this document.");
+    const isOwner = document.ownerId === user.subject;
+    const isOrgMember = !!(
+      document.organizationId && document.organizationId === organizationId
+    );
+
+    if (!isOwner && !isOrgMember) {
+      throw new ConvexError("Unauthorized");
     }
 
     await ctx.db.delete(args.id);
@@ -93,14 +104,30 @@ export const updateDocument = mutation({
 
     if (!user) throw new ConvexError("Unauthorized");
 
+    const organizationId = (user.organization_id ?? undefined) as
+      | string
+      | undefined;
+
     const document = await ctx.db.get(args.id);
 
     if (!document) throw new ConvexError("Document not found");
 
-    if (document.ownerId !== user.subject) {
-      throw new ConvexError("Only the owner can rename this document.");
+    const isOwner = document.ownerId === user.subject;
+    const isOrgMember = !!(
+      document.organizationId && document.organizationId === organizationId
+    );
+
+    if (!isOwner && !isOrgMember) {
+      throw new ConvexError("Unauthorized");
     }
 
     return await ctx.db.patch(args.id, { title: args.title });
+  },
+});
+
+export const getDocumentById = query({
+  args: { id: v.id("documents") },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
   },
 });

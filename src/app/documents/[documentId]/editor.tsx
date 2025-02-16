@@ -2,6 +2,10 @@
 
 import "./styles.css";
 import { useEditor, EditorContent } from "@tiptap/react";
+import {
+  useLiveblocksExtension,
+  FloatingToolbar,
+} from "@liveblocks/react-tiptap";
 import StarterKit from "@tiptap/starter-kit";
 import { Color } from "@tiptap/extension-color";
 import TaskItem from "@tiptap/extension-task-item";
@@ -23,9 +27,11 @@ import { FontSize } from "@/extensions/font-size";
 
 import { useEditorStore } from "@/store/use-editor";
 import Ruler from "./ruler";
+import { Threads } from "./threads";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
+  const liveblocks = useLiveblocksExtension();
 
   const editor = useEditor({
     onCreate: ({ editor }) => setEditor(editor),
@@ -45,6 +51,7 @@ const Editor = () => {
       },
     },
     extensions: [
+      liveblocks,
       StarterKit,
       TaskItem.configure({ nested: true }),
       TaskList,
@@ -82,6 +89,7 @@ const Editor = () => {
     <div className="flex min-h-screen flex-col gap-8 p-4">
       <Ruler />
       <EditorContent editor={editor} />
+      <Threads editor={editor} />
     </div>
   );
 };

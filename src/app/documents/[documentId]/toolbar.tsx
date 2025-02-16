@@ -101,7 +101,7 @@ const Toolbar = () => {
       {
         label: "comment",
         icon: MessageSquarePlusIcon,
-        onClick: () => console.log("comment"),
+        onClick: () => editor?.commands.addPendingComment(),
       },
       {
         label: "list todo",

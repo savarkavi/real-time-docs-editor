@@ -81,3 +81,32 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* For mobile */
+.floating-threads {
+  display: none;
+}
+
+/* For desktop */
+.anchored-threads {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  position: absolute;
+  right: 12px;
+}
+
+@media (max-width: 640px) {
+  .floating-threads {
+    display: block;
+  }
+
+  .anchored-threads {
+    display: none;
+  }
+}
+
+/* Styles all default Comments components */
+.lb-root {
+  --lb-background: #fde68a;
+}
