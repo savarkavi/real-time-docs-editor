@@ -7,6 +7,7 @@ import {
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import { useParams } from "next/navigation";
+import { Loader } from "lucide-react";
 
 export function Room({ children }: { children: ReactNode }) {
   const params = useParams();
@@ -14,7 +15,13 @@ export function Room({ children }: { children: ReactNode }) {
   return (
     <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
       <RoomProvider id={params.documentId as string}>
-        <ClientSideSuspense fallback={<div>Loading…</div>}>
+        <ClientSideSuspense
+          fallback={
+            <div className="flex h-screen items-center justify-center">
+              <Loader className="size-8 animate-spin text-amber-500" />
+            </div>
+          }
+        >
           {children}
         </ClientSideSuspense>
       </RoomProvider>
