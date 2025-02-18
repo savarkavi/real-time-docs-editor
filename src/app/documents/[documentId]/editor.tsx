@@ -47,7 +47,7 @@ const Editor = () => {
       attributes: {
         style: "padding-left: 56px; padding-right: 56px;",
         class:
-          "focus:outline-none bg-stone-950 text-amber-100 w-full max-w-[1000px] mx-auto py-10",
+          "focus:outline-none bg-stone-950 text-amber-100 w-full max-w-[1000px] mx-auto py-10 border min-h-screen",
       },
     },
     extensions: [
