@@ -131,3 +131,20 @@ export const getDocumentById = query({
     return await ctx.db.get(args.id);
   },
 });
+
+export const getDocumentsByIds = query({
+  args: { ids: v.array(v.id("documents")) },
+  handler: async (ctx, { ids }) => {
+    const documents = [];
+
+    for (const id of ids) {
+      const document = await ctx.db.get(id);
+
+      if (document) {
+        documents.push({ id: document._id, name: document.title });
+      }
+    }
+
+    return documents;
+  },
+});
