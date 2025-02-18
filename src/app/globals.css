@@ -110,3 +110,7 @@ body {
 .lb-root {
   --lb-background: #fde68a;
 }
+
+div[data-radix-popper-content-wrapper] {
+  z-index: 50 !important;
+}
