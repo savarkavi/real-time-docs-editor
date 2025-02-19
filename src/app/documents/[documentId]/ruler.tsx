@@ -2,12 +2,21 @@
 
 import React, { useRef, useState } from "react";
 import Marker from "./marker";
+import { useMutation, useStorage } from "@liveblocks/react";
 
 const markers = Array.from({ length: 91 }, (_, i) => i);
 
 const Ruler = () => {
-  const [leftMargin, setLeftMargin] = useState(56);
-  const [rightMargin, setRightMargin] = useState(56);
+  const leftMargin = useStorage((root) => root.leftMargin) ?? 56;
+  const setLeftMargin = useMutation(({ storage }, position: number) => {
+    storage.set("leftMargin", position);
+  }, []);
+
+  const rightMargin = useStorage((root) => root.rightMargin) ?? 56;
+  const setRightMargin = useMutation(({ storage }, position: number) => {
+    storage.set("rightMargin", position);
+  }, []);
+
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);
 
@@ -32,14 +41,14 @@ const Ruler = () => {
         const markerPosition = Math.max(0, Math.min(relativeMarkerX, 1000));
 
         if (isDraggingLeft) {
-          const maxLeftPosition = 1000 - rightMargin - 200;
+          const maxLeftPosition = 1000 - rightMargin - 150;
           const newLeftPosition = Math.min(markerPosition, maxLeftPosition);
 
           setLeftMargin(newLeftPosition);
         }
 
         if (isDraggingRight) {
-          const maxRightPosition = 1000 - (leftMargin + 200);
+          const maxRightPosition = 1000 - (leftMargin + 150);
           const newRightPosition = Math.max(1000 - markerPosition, 0);
           const constrainedRightPosition = Math.min(
             newRightPosition,

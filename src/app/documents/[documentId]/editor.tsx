@@ -28,8 +28,12 @@ import { FontSize } from "@/extensions/font-size";
 import { useEditorStore } from "@/store/use-editor";
 import Ruler from "./ruler";
 import { Threads } from "./threads";
+import { useStorage } from "@liveblocks/react";
 
 const Editor = () => {
+  const leftMargin = useStorage((root) => root.leftMargin);
+  const rightMargin = useStorage((root) => root.rightMargin);
+
   const { setEditor } = useEditorStore();
   const liveblocks = useLiveblocksExtension();
 
@@ -45,7 +49,7 @@ const Editor = () => {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        style: "padding-left: 56px; padding-right: 56px;",
+        style: `padding-left: ${leftMargin}px; padding-right: ${rightMargin}px;`,
         class:
           "focus:outline-none bg-stone-950 text-amber-100 w-full max-w-[1000px] mx-auto py-10 border min-h-screen",
       },
