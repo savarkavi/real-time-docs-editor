@@ -82,7 +82,7 @@ const DocumentsTable = ({
                   </div>
                 </TableCell>
                 <TableCell>
-                  {format(new Date(document._creationTime), "MMM dd, yyyy")}
+                  {format(new Date(document._creationTime), "Pp")}
                 </TableCell>
                 <TableCell className="flex justify-end">
                   <DocumentMenu document={document} />
