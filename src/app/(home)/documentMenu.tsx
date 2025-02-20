@@ -44,13 +44,13 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/nextjs";
+import DeleteDialog from "@/components/deleteDialog";
 
 interface DocumentMenuProps {
   document: Doc<"documents">;
 }
 
 const DocumentMenu = ({ document }: DocumentMenuProps) => {
-  const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [title, setTitle] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -59,27 +59,10 @@ const DocumentMenu = ({ document }: DocumentMenuProps) => {
 
   const isOwner = userId === document.ownerId;
 
-  const deleteDocument = useMutation(api.documents.deleteDocument);
   const updateDocument = useMutation(api.documents.updateDocument);
 
   const handleOpenInNewTab = () => {
     window.open(`/documents/${document._id}`, "_blank");
-  };
-
-  const handleDocumentDelete = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    try {
-      e.stopPropagation();
-      setIsDeleting(true);
-      await deleteDocument({ id: document._id });
-      toast.success("Document successfully deleted");
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete the document");
-    } finally {
-      setIsDeleting(false);
-    }
   };
 
   const handleDocumentUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -132,39 +115,12 @@ const DocumentMenu = ({ document }: DocumentMenuProps) => {
           )}
           {isOwner && (
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <button className="flex w-full items-center gap-2">
-                    <Trash2Icon className="size-4" />
-                    Delete
-                  </button>
-                </AlertDialogTrigger>
-                <AlertDialogContent onClick={(e) => e.stopPropagation()}>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your document.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      disabled={isDeleting}
-                      onClick={handleDocumentDelete}
-                      className="flex w-20 items-center justify-center bg-red-500 text-white hover:bg-red-400"
-                    >
-                      {isDeleting ? (
-                        <Loader2Icon className="size-4 animate-spin" />
-                      ) : (
-                        <span>Delete</span>
-                      )}
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <DeleteDialog documentId={document._id}>
+                <button className="flex w-full items-center gap-2">
+                  <Trash2Icon className="size-4" />
+                  Delete
+                </button>
+              </DeleteDialog>
             </DropdownMenuItem>
           )}
           <DropdownMenuItem onClick={handleOpenInNewTab}>
