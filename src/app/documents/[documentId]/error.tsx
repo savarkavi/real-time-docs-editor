@@ -12,7 +12,7 @@ export default function Error({
 }) {
   return (
     <div className="flex h-screen flex-col items-center justify-center gap-4">
-      <h2>{error.message}</h2>
+      <h2>Something went wrong. Try again later.</h2>
       <div className="flex items-center gap-4">
         <Button onClick={() => reset()}>Try again</Button>
         <Button asChild variant="ghost">
