@@ -59,6 +59,7 @@ export const get = query({
         .withIndex("by_organization_id", (q) =>
           q.eq("organizationId", organizationId),
         )
+        .order("desc")
         .paginate(paginationOpts);
     }
 
