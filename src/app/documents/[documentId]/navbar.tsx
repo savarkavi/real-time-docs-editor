@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { BsCloudCheck } from "react-icons/bs";
@@ -5,8 +7,10 @@ import { BsCloudCheck } from "react-icons/bs";
 import NavbarMenu from "./navbarMenu";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import Inbox from "./inbox";
+import { Doc, Id } from "../../../../convex/_generated/dataModel";
+import { Loader2 } from "lucide-react";
 
-const Navbar = () => {
+const Navbar = ({ document }: { document: Doc<"documents"> }) => {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="flex items-center gap-4">
@@ -17,10 +21,16 @@ const Navbar = () => {
         </Link>
         <div className="flex flex-col gap-2">
           <div className="ml-2 flex items-center gap-2 text-amber-100">
-            <span>Untitled document</span>
+            <span>
+              {document?.title ? (
+                document.title
+              ) : (
+                <Loader2 className="size-4 animate-spin text-amber-100" />
+              )}
+            </span>
             <BsCloudCheck />
           </div>
-          <NavbarMenu />
+          <NavbarMenu doc={document} />
         </div>
       </div>
       <div className="flex items-center gap-2">
@@ -39,7 +49,7 @@ const Navbar = () => {
           <UserButton
             appearance={{
               elements: {
-                userButtonAvatarBox: "w-10 h-10",
+                userButtonAvatarBox: "w-8 h-8",
               },
             }}
           />
