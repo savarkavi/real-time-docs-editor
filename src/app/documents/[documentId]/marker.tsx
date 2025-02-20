@@ -10,7 +10,7 @@ interface MarkerProps {
 const Marker = ({ position, isLeft, onMouseDown, isDragging }: MarkerProps) => {
   return (
     <div
-      className="absolute z-[999] cursor-ew-resize"
+      className="absolute cursor-ew-resize"
       style={{
         [isLeft ? "left" : "right"]: `${position}px`,
         translate: isLeft ? "-50%" : "50%",
