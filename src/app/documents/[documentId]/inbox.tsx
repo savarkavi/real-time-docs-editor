@@ -47,7 +47,13 @@ const InboxMenu = () => {
 
 const Inbox = () => {
   return (
-    <ClientSideSuspense fallback={null}>
+    <ClientSideSuspense
+      fallback={
+        <div className="relative flex items-center justify-center rounded-sm p-2 hover:bg-muted">
+          <BellIcon className="size-5 shrink-0 text-amber-100" />
+        </div>
+      }
+    >
       <InboxMenu />
     </ClientSideSuspense>
   );
