@@ -35,7 +35,7 @@ const DocumentsTable = ({
   const router = useRouter();
 
   return (
-    <div className="mx-auto mt-8 flex max-w-[1000px] flex-col gap-8 text-amber-100">
+    <div className="mx-auto mt-8 flex max-w-[1000px] flex-col gap-8 p-4 text-amber-100">
       <h2 className="text-2xl">Recent Documents</h2>
       {isLoading && status !== "LoadingMore" ? (
         <div className="mt-16 flex items-center justify-center">
@@ -52,7 +52,9 @@ const DocumentsTable = ({
             <TableRow className="border-none hover:bg-transparent">
               <TableHead>Name</TableHead>
               <TableHead>Shared</TableHead>
-              <TableHead>Created at</TableHead>
+              <TableHead className="hidden md:table-header-group">
+                Created at
+              </TableHead>
               <TableHead>&nbsp;</TableHead>
             </TableRow>
           </TableHeader>
@@ -66,13 +68,13 @@ const DocumentsTable = ({
                 className="cursor-pointer"
               >
                 <TableCell>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 lg:gap-4">
                     <SiGoogledocs className="size-4" />
                     <p>{document.title}</p>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 lg:gap-4">
                     {document.organizationId ? (
                       <Building2Icon className="size-4" />
                     ) : (
@@ -81,7 +83,7 @@ const DocumentsTable = ({
                     {document.organizationId ? "Organization" : "Personal"}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className="hidden md:table-cell">
                   {format(new Date(document._creationTime), "Pp")}
                 </TableCell>
                 <TableCell className="flex justify-end">
