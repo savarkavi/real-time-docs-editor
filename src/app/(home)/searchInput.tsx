@@ -5,7 +5,12 @@ import { SearchIcon, XIcon } from "lucide-react";
 import { useQueryState, parseAsString } from "nuqs";
 import { FormEvent, useRef, useState } from "react";
 
-const SearchInput = () => {
+interface SearchInputProps {
+  classNames?: string;
+  onSheetClose?: () => void;
+}
+
+const SearchInput = ({ classNames, onSheetClose }: SearchInputProps) => {
   const [value, setValue] = useState("");
   const [search, setSearch] = useQueryState(
     "search",
@@ -25,15 +30,19 @@ const SearchInput = () => {
 
     setSearch(value);
     inputRef.current?.blur();
+
+    if (onSheetClose) {
+      onSheetClose();
+    }
   };
 
   return (
-    <div className="w-full max-w-[600px]">
+    <div className={`w-full max-w-[600px] ${classNames}`}>
       <form className="relative" onSubmit={onSubmit}>
         <Input
           ref={inputRef}
-          className="rounded-xl border-muted-foreground px-12 py-6 outline-none"
-          placeholder="Search"
+          className="rounded-xl border-muted-foreground px-12 py-5 outline-none lg:py-6"
+          placeholder="search document"
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />

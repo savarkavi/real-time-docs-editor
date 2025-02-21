@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SearchInput from "./searchInput";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
+import MenuSheet from "./menuSheet";
 
 const Navbar = () => {
   return (
@@ -14,8 +15,8 @@ const Navbar = () => {
         </Link>
         <h1 className="font-serif text-2xl text-amber-100">Yuma</h1>
       </div>
-      <SearchInput />
-      <div className="flex items-center gap-2">
+      <SearchInput classNames="hidden lg:block" />
+      <div className="hidden items-center gap-2 lg:flex">
         <OrganizationSwitcher
           appearance={{
             elements: {
@@ -33,6 +34,9 @@ const Navbar = () => {
             },
           }}
         />
+      </div>
+      <div className="lg:hidden">
+        <MenuSheet />
       </div>
     </div>
   );
