@@ -109,8 +109,33 @@ body {
 /* Styles all default Comments components */
 .lb-root {
   --lb-background: #fde68a;
+  --lb-accent-foreground: #000;
+  --lb-accent: #f59e0b;
+  --lb-destructive-foreground: #000;
+  --lb-destructive: #000;
+  --lb-foreground: #000;
+}
+
+.lb-tiptap-mention {
+  --lb-accent: rgb(28, 94, 181);
 }
 
 div[data-radix-popper-content-wrapper] {
   z-index: 50 !important;
+}
+
+.cl-internal-1dauvpw {
+  display: none;
+}
+
+.cl-internal-7hb1uf {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.cl-internal-119mn6g {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
