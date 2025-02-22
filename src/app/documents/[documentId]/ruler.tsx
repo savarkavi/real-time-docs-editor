@@ -71,7 +71,7 @@ const Ruler = () => {
       ref={rulerRef}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
-      className="hide-scrollbar mt-2 w-full select-none border-b border-stone-800"
+      className="hide-scrollbar mt-2 hidden w-full select-none border-b border-stone-800 lg:block"
     >
       <div
         id="ruler"
