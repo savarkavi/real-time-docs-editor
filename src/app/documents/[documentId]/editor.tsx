@@ -29,8 +29,11 @@ import { useEditorStore } from "@/store/use-editor";
 import Ruler from "./ruler";
 import { Threads } from "./threads";
 import { useStorage } from "@liveblocks/react";
+import { useMediaQuery } from "usehooks-ts";
 
 const Editor = () => {
+  const smallScreen = useMediaQuery("(max-width: 1024px)");
+
   const leftMargin = useStorage((root) => root.leftMargin);
   const rightMargin = useStorage((root) => root.rightMargin);
 
@@ -49,7 +52,7 @@ const Editor = () => {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        style: `padding-left: ${leftMargin}px; padding-right: ${rightMargin}px;`,
+        style: `padding-left: ${smallScreen ? 16 : leftMargin}px; padding-right: ${smallScreen ? 16 : rightMargin}px;`,
         class:
           "focus:outline-none bg-stone-950 text-amber-100 w-full max-w-[1000px] mx-auto py-10 border min-h-screen",
       },
