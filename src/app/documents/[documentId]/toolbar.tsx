@@ -117,7 +117,7 @@ const Toolbar = () => {
   ];
 
   return (
-    <div className="hide-scrollbar flex h-12 items-center gap-x-2 overflow-x-scroll bg-amber-500 px-6 py-2">
+    <div className="hide-scrollbar flex h-12 items-center gap-x-2 overflow-x-scroll bg-amber-500 px-6 py-2 print:hidden">
       {sections[0].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}
