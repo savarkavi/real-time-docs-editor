@@ -35,12 +35,44 @@ import {
 } from "lucide-react";
 
 import { AiOutlineFilePdf } from "react-icons/ai";
+import RenameDialog from "./renameDialog";
+import { Doc } from "../../../../convex/_generated/dataModel";
+import DeleteDialog from "@/components/deleteDialog";
+import { useAuth } from "@clerk/nextjs";
+import { useMutation } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-const NavbarMenu = () => {
+const NavbarMenu = ({ doc }: { doc: Doc<"documents"> }) => {
+  const [isCreating, setIsCreating] = useState(false);
   const { editor } = useEditorStore();
+
+  const router = useRouter();
+
+  const { userId } = useAuth();
+
+  const isOwner = userId === doc.ownerId;
 
   const insertTable = ({ rows, cols }: { rows: number; cols: number }) => {
     editor?.commands.insertTable({ rows, cols, withHeaderRow: false });
+  };
+
+  const create = useMutation(api.documents.create);
+
+  const onDocumentClick = async () => {
+    try {
+      setIsCreating(true);
+      const documentId = await create({});
+      router.push(`/documents/${documentId}`);
+      toast.success("New document created");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to create a document. Try again later");
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   const onDownload = (blob: Blob, filename: string) => {
@@ -121,19 +153,37 @@ const NavbarMenu = () => {
               </MenubarItem>
             </MenubarSubContent>
           </MenubarSub>
-          <MenubarItem className="flex gap-2">
+          <MenubarItem className="flex gap-2" onClick={onDocumentClick}>
             <FilePlusIcon className="size-4" />
             New Document
           </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem className="flex gap-2">
-            <FilePenIcon className="size-4" />
-            Rename
-          </MenubarItem>
-          <MenubarItem className="flex gap-2">
-            <TrashIcon className="size-4" />
-            Remove
-          </MenubarItem>
+          {isOwner && (
+            <MenubarItem
+              onClick={(e) => e.stopPropagation()}
+              onSelect={(e) => e.preventDefault()}
+            >
+              <RenameDialog documentId={doc._id}>
+                <div className="flex w-full items-center gap-2">
+                  <FilePenIcon className="size-4" />
+                  Rename
+                </div>
+              </RenameDialog>
+            </MenubarItem>
+          )}
+          {isOwner && (
+            <MenubarItem
+              onClick={(e) => e.stopPropagation()}
+              onSelect={(e) => e.preventDefault()}
+            >
+              <DeleteDialog documentId={doc._id}>
+                <div className="flex gap-2">
+                  <TrashIcon className="size-4" />
+                  Remove
+                </div>
+              </DeleteDialog>
+            </MenubarItem>
+          )}
           <MenubarSeparator />
           <MenubarItem className="flex gap-2">
             <PrinterIcon className="size-4" />
